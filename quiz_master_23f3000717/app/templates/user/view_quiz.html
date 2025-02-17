@@ -1,0 +1,27 @@
+<!-- app/templates/user/view_quiz.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz.title }}</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('user.dashboard') }}">Back to Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <h1>{{ quiz.title }}</h1>
+
+    <!-- Display quiz details -->
+    <p><strong>Quiz ID:</strong> {{ quiz.id }}</p>
+    <p><strong>Description:</strong> {{ quiz.description if quiz.description else 'No description available' }}</p>
+
+    <form action="{{ url_for('user.start_quiz', quiz_id=quiz.id) }}" method="POST">
+        <button type="submit">Start Quiz</button>
+    </form>
+
+</body>
+</html>

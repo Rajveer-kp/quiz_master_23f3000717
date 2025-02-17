@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Chapters for {{ subject.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .back-btn {
+            background-color: #6c757d;
+        }
+
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <h1>Manage Chapters for {{ subject.name }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Chapter Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for chapter in chapters %}
+            <tr>
+                <td>{{ chapter.title }}</td>
+                <td>
+                    <!-- Edit Link -->
+                    <a href="{{ url_for('admin.edit_chapter', chapter_id=chapter.id) }}" class="edit-link">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+    
+                    <!-- Delete Form -->
+                    <form action="{{ url_for('admin.delete_chapter', chapter_id=chapter.id) }}" method="POST" style="display: inline;">
+                        <button type="submit" class="delete-link" onclick="return confirm('Are you sure you want to delete this chapter?')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2" class="empty-state">
+                    No chapters available for this subject.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    
+
+    <a href="{{ url_for('admin.add_chapter', subject_id=subject.id) }}" class="btn">Add New Chapter</a>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn back-btn">Back to Dashboard</a>
+</body>
+</html>

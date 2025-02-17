@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Chapter</title>
+    <style>
+        .form-container {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add New Chapter to "{{ subject.name }}"</h1>
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('admin.add_chapter', subject_id=subject.id) }}">
+            <label for="title">Chapter Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="description">Chapter Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="question_count">Number of Questions:</label>
+            <input type="number" id="question_count" name="question_count" required>
+
+            <button type="submit">Save Chapter</button>
+        </form>
+    </div>
+</body>
+</html>

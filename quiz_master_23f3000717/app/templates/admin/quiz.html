@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Management</title>
+    <style>
+       body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #1a1a1a;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+}
+
+.container {
+    margin: 2rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.quiz-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.quiz-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quiz-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.quiz-card h3 {
+    margin: 0 0 1rem;
+    color: #2563eb;
+    font-size: 1.25rem;
+}
+
+.quiz-card table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.quiz-card th, .quiz-card td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #e5e7eb;
+}
+
+.quiz-card th {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    font-weight: 500;
+}
+
+.quiz-card tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.add-quiz-btn {
+    margin: 2rem 0;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.add-quiz-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modal-content h3 {
+    margin: 0 0 1.5rem;
+    color: #1a1a1a;
+}
+
+.modal-content input, 
+.modal-content select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    transition: border-color 0.2s ease;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+}
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Management</title>
+    <link rel="stylesheet" href="/static/css/styles.css"> <!-- Assuming you have a CSS file -->
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div>
+            <a href="{{ url_for('admin.dashboard') }}">Home</a>
+            <a href="{{ url_for('admin.quiz') }}">Quiz</a>
+            <a href="{{ url_for('admin.summary') }}">Summary</a>
+            <a href="{{ url_for('admin.manage_users') }}">Manage Users</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        </div>
+        <div>
+            <!-- Search Bar -->
+            <form action="{{ url_for('admin.quiz') }}" method="GET" style="display: inline-flex; gap: 0.5rem;">
+                <input type="text" name="search" placeholder="Search quizzes..." value="{{ request.args.get('search', '') }}" 
+                       style="padding: 0.5rem; width: 200px; border: 1px solid #ccc; border-radius: 0.5rem;">
+                <button type="submit" style="padding: 0.5rem 1rem; background-color: #4f46e5; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </form>
+            <span>Welcome Admin</span>
+        </div>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <h2>Quiz Management</h2>
+        <button class="add-quiz-btn" onclick="toggleModal()">+ Add New Quiz</button>
+
+        <div class="quiz-section">
+            {% if quizzes %}
+                {% for quiz in quizzes %}
+                <div class="quiz-card">
+                    <h3>{{ quiz.title }}</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in quiz.questions %}
+                            <tr>
+                                <td>{{ question.question_number }}</td>
+                                <td>{{ question.title }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin.edit_question', question_id=question.id) }}" class="btn btn-primary">Edit</a>
+                                    <form action="{{ url_for('admin.delete_question', question_id=question.id) }}" method="POST" style="display:inline;">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button class="add-question-btn" onclick="redirectToAddQuestion({{ quiz.id }})">+ Add Question</button>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No quizzes found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Add Quiz Modal -->
+    <div class="modal" id="addQuizModal">
+        <div class="modal-content">
+            <h3>Add New Quiz</h3>
+            <form action="{{ url_for('admin.add_quiz') }}" method="POST">
+                <input type="text" name="title" placeholder="Quiz Title" required>
+                <select name="chapter_id" required>
+                    <option value="" disabled selected>Select a Chapter</option>
+                    {% for chapter in chapters %}
+                    <option value="{{ chapter.id }}">{{ chapter.title }}</option>
+                    {% endfor %}
+                </select>
+                <input type="date" name="date" required>
+                <input type="text" name="duration" placeholder="Duration (e.g., 1 hour)" required>
+                <button class="btn btn-success" type="submit">Save</button>
+            </form>
+            <button class="btn btn-danger" onclick="toggleModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('addQuizModal');
+            modal.classList.toggle('active');
+        }
+
+        function redirectToAddQuestion(quizId) {
+            window.location.href = `/admin/add_question/${quizId}`;
+        }
+    </script>
+</body>
+
+</html>
+
+</html>

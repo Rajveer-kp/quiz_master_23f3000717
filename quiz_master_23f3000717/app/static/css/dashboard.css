@@ -1,0 +1,157 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Menu Styles */
+.menu-bar {
+    background-color: #007BFF;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    margin-right: 20px;
+    transition: 0.3s;
+}
+
+.menu-links a:hover {
+    color: #FFD700;
+}
+
+.logout-btn {
+    background: red;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.logout-btn:hover {
+    background: darkred;
+}
+
+/* Username Styling */
+.welcome {
+    font-size: 16px;
+}
+
+.username {
+    font-weight: bold;
+    color: #FFD700;
+}
+
+/* Dashboard Content */
+.container {
+    padding: 30px;
+}
+
+.dashboard-title {
+    color: #007BFF;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Subject Titles */
+.subject-title {
+    color: #007BFF;
+    margin-top: 20px;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Take Quiz Button */
+.quiz-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.quiz-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.quiz-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Button */
+@media (max-width: 768px) {
+    .quiz-btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+
+/* No Data Message */
+.no-data {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table {
+        font-size: 14px;
+    }
+
+    .menu-bar {
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .menu-bar a {
+        margin: 5px 0;
+    }
+}

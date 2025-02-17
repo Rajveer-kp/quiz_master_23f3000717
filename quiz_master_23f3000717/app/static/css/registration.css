@@ -1,0 +1,75 @@
+/* Background Image */
+body {
+    background-image: url("../img/background.jpg"); /* Ensure correct path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Semi-transparent overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: -1;
+}
+
+/* Card Styling */
+.card {
+    background: rgba(255, 255, 255, 0.2); /* Light transparency */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+/* Card Header */
+.card-header {
+    background: transparent;
+    border-bottom: none;
+}
+
+.card-header h3 {
+    color: white;
+    font-weight: bold;
+}
+
+/* Input Fields */
+.form-control {
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+}
+
+/* Button Styling */
+.btn-primary {
+    background: #007bff;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+/* Text Color */
+label, p {
+    color: white;
+}
+
+/* Register Link */
+a {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

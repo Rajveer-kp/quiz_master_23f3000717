@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Question</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 1em;
+            color: #555;
+        }
+
+        input, textarea {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Question to Quiz: {{ quiz.title }}</h1>
+        <form action="{{ url_for('admin.add_question', quiz_id=quiz.id) }}" method="POST">
+            <label for="title">Question Title:</label>
+            <input type="text" name="title" id="title" placeholder="Enter question title" required>
+
+            <label for="statement">Question Statement:</label>
+            <textarea name="statement" id="statement" rows="4" placeholder="Enter question details" required></textarea>
+
+            <label for="option1">Option 1:</label>
+            <input type="text" name="option1" id="option1" placeholder="Enter first option" required>
+
+            <label for="option2">Option 2:</label>
+            <input type="text" name="option2" id="option2" placeholder="Enter second option" required>
+
+            <label for="option3">Option 3:</label>
+            <input type="text" name="option3" id="option3" placeholder="Enter third option (optional)">
+
+            <label for="option4">Option 4:</label>
+            <input type="text" name="option4" id="option4" placeholder="Enter fourth option (optional)">
+
+            <label for="correct_option">Correct Option (1-4):</label>
+            <input type="number" name="correct_option" id="correct_option" min="1" max="4" required>
+
+            <button type="submit">Add Question</button>
+        </form>
+    </div>
+</body>
+</html>

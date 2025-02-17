@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Scores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/users_scores.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-links">
+            <a href="{{ url_for('user.dashboard') }}">Home</a>
+            <a href="{{ url_for('user.scores') }}" class="active">Scores</a>
+            <a href="{{ url_for('user.summary') }}">Summary</a>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+        <div class="welcome">
+            Welcome, <span class="username">{{ session['username'] }}</span>
+        </div>
+    </div>
+
+    <!-- Score Container -->
+    <div class="container">
+        <h1 class="score-title">Your Quiz Scores</h1>
+
+        {% if user_scores %}
+            <div class="table-responsive">
+                <table class="score-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz ID</th>
+                            <th>Score</th>
+                            <th>Total Questions</th>
+                            <th>Date Attempted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for score in user_scores %}
+                        <tr>
+                            <td>{{ score.quiz_id }}</td>
+                            <td class="score-value">{{ score.score }}</td>
+                            <td>{{ score.total_questions }}</td>
+                            <td>{{ score.date_attempted.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="no-data">No scores available.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Quiz - {{ quiz.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #007BFF;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fefefe;
+        }
+
+        .question h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .options {
+            margin-top: 10px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .timer {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FF0000;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        let timer; // Timer variable
+
+        function startTimer(duration) {
+            let remainingTime = duration;
+            const timerElement = document.getElementById("timer");
+
+            timer = setInterval(() => {
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+
+                timerElement.textContent = `Time Remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                if (remainingTime <= 0) {
+                    clearInterval(timer);
+                    alert("Time's up! Submitting your quiz...");
+                    document.getElementById("quiz-form").submit();
+                }
+
+                remainingTime--;
+            }, 1000);
+        }
+    </script>
+</head>
+<body onload="startTimer({{ quiz_duration * 60 }})">
+    <div class="container">
+        <h1>{{ quiz.title }}</h1>
+        <div class="timer" id="timer">Time Remaining: --:--</div>
+
+        {% if questions %}
+        <form id="quiz-form" action="{{ url_for('user.take_quiz', chapter_id=quiz.chapter_id) }}" method="POST">
+            {% for question in questions %}
+            <div class="question">
+                <h3>{{ loop.index }}. {{ question.statement }}</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="question_{{ question.id }}" value="1" required>
+                        {{ question.option1 }}
+                    </label>
+                    <label>
+                        <input type="radio" name="question_{{ question.id }}" value="2" required>
+                        {{ question.option2 }}
+                    </label>
+                    {% if question.option3 %}
+                    <label>
+                        <input type="radio" name="question_{{ question.id }}" value="3" required>
+                        {{ question.option3 }}
+                    </label>
+                    {% endif %}
+                    {% if question.option4 %}
+                    <label>
+                        <input type="radio" name="question_{{ question.id }}" value="4" required>
+                        {{ question.option4 }}
+                    </label>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="submit-btn">Submit Quiz</button>
+        </form>
+        {% else %}
+        <p class="no-questions">No questions are available for this quiz.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

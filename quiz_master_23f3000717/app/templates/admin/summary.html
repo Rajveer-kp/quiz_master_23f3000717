@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Summary</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Global Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Navbar Styling */
+        .menu-bar {
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            margin-right: 20px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .menu-bar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Search Box */
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        /* Charts Container */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: 220px !important; /* Reduce Chart Size */
+        }
+
+        /* Table Styling */
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-table th, .score-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .score-table th {
+            background: #007BFF;
+            color: white;
+            font-size: 14px;
+        }
+
+        .score-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .score-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Admin Navbar -->
+    <div class="menu-bar">
+        <div>
+            <a href="/admin/dashboard">Home</a>
+            <a href="/admin/quiz">Quiz</a>
+            <a href="/admin/summary" class="active">Summary</a>
+            <a href="/admin/manage_users">Manage Users</a>
+            <a href="/logout">Logout</a>
+        </div>
+        <div>Welcome Admin</div>
+    </div>
+
+    <!-- Summary Content -->
+    <div class="container">
+        <h1>Admin Summary</h1>
+
+        <!-- User Search -->
+        <div class="search-box">
+            <select id="userSelect">
+                <option value="all">All Users</option>
+                {% for user in users %}
+                    <option value="{{ user.username }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            <button onclick="filterUser()">Search</button>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-container">
+            <div>
+                <h2>Selected User's Quiz Scores</h2>
+                <canvas id="userScoresChart"></canvas>
+            </div>
+            <div>
+                <h2>Selected User's Quiz Attempts</h2>
+                <canvas id="userAttemptsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- User-Wise Scores Table -->
+        <div class="table-container">
+            <h2>User-Wise Quiz Scores</h2>
+            <table class="score-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Subject</th>
+                        <th>Quiz Title</th>
+                        <th>Score</th>
+                        <th>Total Questions</th>
+                        <th>Date Attempted</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    {% for score in user_scores %}
+                    <tr class="userRow" data-user="{{ score.username }}">
+                        <td>{{ score.username }}</td>
+                        <td>{{ score.subject_name }}</td>
+                        <td>{{ score.quiz_title }}</td>
+                        <td class="score-value">{{ score.score }}</td>
+                        <td>{{ score.total_questions }}</td>
+                        <td>{{ score.date_attempted.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const userScores = {{ user_scores | tojson }};
+        const userAttempts = {{ quiz_attempts | tojson }};
+
+        function filterUser() {
+            const selectedUser = document.getElementById("userSelect").value;
+
+            // Filter Data for Bar Chart
+            const filteredScores = userScores.filter(score => selectedUser === "all" || score.username === selectedUser);
+            updateBarChart(filteredScores);
+
+            // Filter Data for Pie Chart
+            const filteredAttempts = userAttempts.filter(attempt => selectedUser === "all" || attempt.username === selectedUser);
+            updatePieChart(filteredAttempts);
+        }
+
+        function updateBarChart(data) {
+            const subjects = data.map(score => score.subject_name);
+            const scores = data.map(score => score.score);
+
+            userScoresChart.data.labels = subjects;
+            userScoresChart.data.datasets[0].data = scores;
+            userScoresChart.update();
+        }
+
+        function updatePieChart(data) {
+            const subjects = data.map(attempt => attempt.subject_name);
+            const attempts = data.map(attempt => attempt.attempts);
+
+            userAttemptsChart.data.labels = subjects;
+            userAttemptsChart.data.datasets[0].data = attempts;
+            userAttemptsChart.update();
+        }
+
+        // Initialize Charts
+        const userScoresChartCtx = document.getElementById('userScoresChart').getContext('2d');
+        const userScoresChart = new Chart(userScoresChartCtx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Score',
+                    data: [],
+                    backgroundColor: '#36A2EB'
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        const userAttemptsChartCtx = document.getElementById('userAttemptsChart').getContext('2d');
+        const userAttemptsChart = new Chart(userAttemptsChartCtx, {
+            type: 'pie',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                }]
+            },
+            options: { responsive: true }
+        });
+    </script>
+
+</body>
+</html>

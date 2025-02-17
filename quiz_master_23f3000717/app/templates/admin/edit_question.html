@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Question</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .correct-option {
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .submit-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+
+        .cancel-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: #f3f4f6;
+            color: var(--text-primary);
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cancel-btn:hover {
+            background-color: #e5e7eb;
+        }
+
+        @media (max-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Question</h1>
+        <form action="{{ url_for('admin.edit_question', question_id=question.id) }}" method="POST">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" value="{{ question.title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="statement">Statement:</label>
+                <textarea name="statement" id="statement" required>{{ question.statement }}</textarea>
+            </div>
+
+            <div class="options-grid">
+                <div class="form-group">
+                    <label for="option1">Option 1:</label>
+                    <input type="text" name="option1" id="option1" value="{{ question.option1 }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option2">Option 2:</label>
+                    <input type="text" name="option2" id="option2" value="{{ question.option2 }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="option3">Option 3:</label>
+                    <input type="text" name="option3" id="option3" value="{{ question.option3 }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="option4">Option 4:</label>
+                    <input type="text" name="option4" id="option4" value="{{ question.option4 }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="correct_option">Correct Option (1-4):</label>
+                <input type="number" name="correct_option" id="correct_option" min="1" max="4" 
+                       value="{{ question.correct_option }}" required class="correct-option">
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a href="{{ url_for('admin.quiz') }}" class="cancel-btn">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

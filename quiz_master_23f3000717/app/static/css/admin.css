@@ -1,0 +1,160 @@
+/* 🌟 Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* 🔹 Menu Bar Styling */
+.menu-bar {
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Menu Links */
+.menu-links {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-links a i {
+    font-size: 16px;
+}
+
+.menu-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.08);
+}
+
+.menu-links .active {
+    border-bottom: 3px solid #FFD700;
+    padding-bottom: 3px;
+}
+
+/* 🔹 Logout Button */
+.logout-btn {
+    background: #dc3545;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+    background: #b22234;
+    transform: scale(1.08);
+}
+
+/* 📌 Page Title */
+.page-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 📊 Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.table thead {
+    background: #007BFF;
+    color: white;
+}
+
+.table thead th {
+    padding: 14px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.table tbody td {
+    padding: 14px;
+    text-align: center;
+}
+
+/* Button Styling */
+.btn {
+    font-size: 14px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.table-responsive {
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.table th {
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    padding: 15px;
+    font-size: 16px;
+}
+
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: 0.3s ease-in-out;
+}
+
+.badge {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.btn {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-outline-success:hover, .btn-outline-danger:hover {
+    transform: scale(1.08);
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Chapter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/admin/dashboard" class="back-link">← Back to Dashboard</a>
+        <h1>Edit Chapter</h1>
+        <form method="POST" action="/admin/edit_chapter/{{ chapter.id }}">
+            <label for="title">Chapter Title</label>
+            <input type="text" id="title" name="title" value="{{ chapter.title }}" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" required>{{ chapter.description }}</textarea>
+
+            <label for="question_count">Number of Questions</label>
+            <input type="number" id="question_count" name="question_count" value="{{ chapter.question_count }}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>

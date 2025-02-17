@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #555;
+            font-size: 1.8em;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 1em;
+            color: #555;
+        }
+
+        input, select, button, textarea {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #74ebd5;
+            box-shadow: 0 0 5px rgba(116, 235, 213, 0.5);
+        }
+
+        button {
+            background-color: #74ebd5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #66d5c0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group textarea {
+            resize: none;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .form-actions button {
+            width: 100px;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Quiz</h1>
+        <form action="{{ url_for('admin.add_quiz') }}" method="POST">
+            <div class="form-group">
+                <label for="title">Quiz Title:</label>
+                <input type="text" name="title" id="title" placeholder="Enter quiz title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="chapter_id">Chapter:</label>
+                <select name="chapter_id" id="chapter_id" required>
+                    <option value="" disabled selected>Select a chapter</option>
+                    {% for chapter in chapters %}
+                    <option value="{{ chapter.id }}">{{ chapter.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="date">Quiz Date:</label>
+                <input type="date" name="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Duration:</label>
+                <input type="text" name="duration" id="duration" placeholder="Enter duration (e.g., 1 hour)" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Save</button>
+                <button type="reset" style="background-color: #f44336;">Reset</button>
+            </div>
+        </form>
+        <p class="message">Make sure all fields are filled out before saving the quiz.</p>
+    </div>
+</body>
+</html>

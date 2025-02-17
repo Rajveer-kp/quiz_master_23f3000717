@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Summary</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_summary.css') }}">
+</head>
+<body>
+
+    <!-- User Navigation Menu -->
+    <nav class="menu-bar">
+        <div class="menu-links">
+            <a href="{{ url_for('user.dashboard') }}" class="active">Home</a>
+            <a href="{{ url_for('user.scores') }}">Scores</a>
+            <a href="{{ url_for('user.summary') }}">Summary</a>
+            <a href="{{ url_for('auth.logout') }}" class="logout-btn">Logout</a>
+        </div>
+        <div class="welcome">
+            {% if session['user_id'] %}
+                Welcome, <span class="username">{{ session['username'] }}</span>
+            {% else %}
+                Welcome, Guest
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Summary Section -->
+    <section class="summary-container">
+        <h1 class="summary-title">Quiz Summary</h1>
+
+        <!-- Search or Select Subject -->
+        <form action="{{ url_for('user.summary') }}" method="GET" class="search-bar">
+            <select name="selected_subject" required>
+                <option value="" disabled selected>Select a Subject</option>
+                {% for subject in all_subjects %}
+                    <option value="{{ subject.id }}" {% if selected_subject == subject.id|string %}selected{% endif %}>
+                        {{ subject.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit">
+                <i class="fas fa-search"></i> View Subject Marks
+            </button>
+        </form>
+
+        <!-- Subject-Wise Scores -->
+        <div class="chart-container">
+            <h2>Subject-Wise Scores</h2>
+            <canvas id="userBarChart"></canvas>
+        </div>
+
+        <!-- Average Scores Chart -->
+        <div class="chart-container">
+            <h2>Average Scores Per Quiz</h2>
+            <canvas id="averageScoreChart"></canvas>
+        </div>
+
+        <!-- Score Trends Over Time -->
+        <div class="chart-container">
+            <h2>Score Trends</h2>
+            <canvas id="scoreTrendChart"></canvas>
+        </div>
+
+        <!-- Quiz Performance Pie Chart -->
+        <div class="chart-container">
+            <h2>Quiz Performance</h2>
+            <canvas id="userPieChart"></canvas>
+        </div>
+    </section>
+
+    <script>
+        // User Scores - Bar Chart
+        const userBarChartData = {
+            labels: {{ user_scores|map(attribute='quiz_title')|list|tojson }},
+            datasets: [{
+                label: 'User Scores',
+                data: {{ user_scores|map(attribute='score')|list|tojson }},
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9966FF'],
+            }]
+        };
+
+        // Average Scores - Line Chart
+        const avgScoreChartData = {
+            labels: {{ avg_scores|map(attribute='quiz_title')|list|tojson }},
+            datasets: [{
+                label: 'Average Score',
+                data: {{ avg_scores|map(attribute='average_score')|list|tojson }},
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: '#36A2EB',
+                borderWidth: 2,
+                fill: true
+            }]
+        };
+
+        // Score Trends Over Time - Line Chart
+        const scoreTrendChartData = {
+            labels: {{ score_trends|map(attribute='date')|list|tojson }},
+            datasets: [{
+                label: 'Score Progression',
+                data: {{ score_trends|map(attribute='score')|list|tojson }},
+                borderColor: '#FF5733',
+                backgroundColor: 'rgba(255, 87, 51, 0.2)',
+                borderWidth: 2,
+                fill: true
+            }]
+        };
+
+        // Quiz Performance - Pie Chart
+        const userPieChartData = {
+            labels: ['Correct Answers', 'Incorrect Answers'],
+            datasets: [{
+                label: 'Performance',
+                data: [{{ total_correct }}, {{ total_incorrect }}],
+                backgroundColor: ['#4CAF50', '#FF6384'],
+            }]
+        };
+
+        // Render Bar Chart
+        new Chart(document.getElementById('userBarChart').getContext('2d'), {
+            type: 'bar',
+            data: userBarChartData,
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+
+        // Render Average Score Line Chart
+        new Chart(document.getElementById('averageScoreChart').getContext('2d'), {
+            type: 'line',
+            data: avgScoreChartData,
+            options: { responsive: true }
+        });
+
+        // Render Score Trend Line Chart
+        new Chart(document.getElementById('scoreTrendChart').getContext('2d'), {
+            type: 'line',
+            data: scoreTrendChartData,
+            options: { responsive: true }
+        });
+
+        // Render Pie Chart
+        new Chart(document.getElementById('userPieChart').getContext('2d'), {
+            type: 'pie',
+            data: userPieChartData,
+            options: { responsive: true }
+        });
+    </script>
+
+</body>
+</html>

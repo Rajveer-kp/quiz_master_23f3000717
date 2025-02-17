@@ -1,0 +1,275 @@
+/* 🌐 Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+/* 🔹 Navbar Styling */
+.navbar {
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    margin-right: 20px;
+    transition: 0.3s ease-in-out;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.navbar-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.08);
+}
+
+.navbar-links .active {
+    border-bottom: 3px solid #FFD700;
+    padding-bottom: 3px;
+}
+
+/* 🔹 Logout Button */
+.logout-btn {
+    background: #dc3545;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+    background: #b22234;
+    transform: scale(1.08);
+}
+
+/* 🔹 Welcome Username Styling */
+.welcome {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.username {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+/* 📌 Summary Container */
+.summary-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.summary-container:hover {
+    transform: scale(1.02);
+}
+
+/* 📌 Title */
+.summary-title {
+    color: #007BFF;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+/* 📊 Chart Container */
+.chart-container {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: 0.3s ease-in-out;
+}
+
+.chart-container:hover {
+    transform: scale(1.03);
+}
+
+/* 🔎 Search Bar & Dropdown */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.search-bar select,
+.search-bar input {
+    padding: 12px;
+    width: 320px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.search-bar select:hover,
+.search-bar input:hover {
+    border-color: #007BFF;
+}
+
+.search-bar button {
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+    transform: scale(1.07);
+}
+
+/* 📝 Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+th, td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #007BFF;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 768px) {
+    .summary-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar-links a {
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .chart-container {
+        padding: 15px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+/* 🔹 Menu Bar Styling */
+.menu-bar {
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Menu Links */
+.menu-links {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.menu-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.08);
+}
+
+.menu-links .active {
+    border-bottom: 3px solid #FFD700;
+    padding-bottom: 3px;
+}
+
+/* 🔹 Logout Button */
+.logout-btn {
+    background: #dc3545;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+    background: #b22234;
+    transform: scale(1.08);
+}
+
+/* 🔹 Welcome Username Styling */
+.welcome {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.username {
+    color: #FFD700;
+    font-weight: bold;
+}

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* Menu Bar */
+        .menu-bar {
+            background-color: var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.25rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .menu-bar a {
+            text-decoration: none;
+            color: var(--text-primary);
+            margin-right: 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .menu-bar a:hover {
+            color: var(--primary-color);
+            background-color: rgba(79, 70, 229, 0.1);
+        }
+
+        .menu-bar .welcome {
+            color: var(--text-secondary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background-color: var(--bg-color);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .add-subject-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+
+        .add-subject-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+        }
+
+        .manage-chapters-btn {
+            padding: 0.5rem 1rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .manage-chapters-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Subject Card */
+        .subject-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1),
+                        0 4px 6px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .subject-header {
+            padding: 1.75rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .actions a {
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .actions .edit-link {
+            color: var(--primary-color);
+        }
+
+        .actions .edit-link:hover {
+            background-color: rgba(79, 70, 229, 0.1);
+        }
+
+        .actions .delete-link {
+            color: var(--danger);
+        }
+
+        .actions .delete-link:hover {
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Menu -->
+    <div class="menu-bar">
+        <div class="menu-links">
+            <a href="{{ url_for('admin.dashboard') }}" class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{{ url_for('admin.quiz') }}" class="{% if request.endpoint == 'admin.quiz' %}active{% endif %}">
+                <i class="fas fa-question-circle"></i> Quiz
+            </a>
+            <a href="{{ url_for('admin.summary') }}" class="{% if request.endpoint == 'admin.summary' %}active{% endif %}">
+                <i class="fas fa-chart-bar"></i> Summary
+            </a>
+            <a href="{{ url_for('admin.manage_users') }}" class="{% if request.endpoint == 'admin.manage_users' %}active{% endif %}">
+                <i class="fas fa-users"></i> Manage Users
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+        
+        <div class="welcome">
+            <i class="fas fa-user-circle"></i> Welcome, Admin
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <!-- Search Bar -->
+        <form action="{{ url_for('admin.dashboard') }}" method="GET" class="search-bar" style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+            <input type="text" name="search" placeholder="Search for subjects..." value="{{ request.args.get('search', '') }}" 
+                   style="padding: 0.75rem; width: 100%; border: 1px solid #ccc; border-radius: 0.5rem;">
+            <button type="submit" style="padding: 0.75rem 1.5rem; background-color: #4f46e5; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </form>
+
+        <div class="dashboard-actions">
+            <button class="add-subject-btn" onclick="window.location.href='{{ url_for('admin.add_subject') }}'">
+                <i class="fas fa-plus"></i> Add Subject
+            </button>
+        </div>
+
+        <div class="subject-table-container">
+            {% if subjects %}
+                {% for subject in subjects %}
+                <div class="subject-card">
+                    <div class="subject-header">
+                        <h2>{{ subject.name }}</h2>
+                        <button class="manage-chapters-btn" onclick="window.location.href='{{ url_for('admin.manage_chapters', subject_id=subject.id) }}'">
+                            <i class="fas fa-cog"></i> Manage Chapters
+                        </button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Chapter Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for chapter in subject.chapters %}
+                            <tr>
+                                <td>{{ chapter.title }}</td>
+                                <td class="actions">
+                                    <a href="{{ url_for('admin.edit_chapter', chapter_id=chapter.id) }}" class="edit-link">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <form action="{{ url_for('admin.delete_chapter', chapter_id=chapter.id) }}" method="POST" style="display: inline;" 
+                                          onsubmit="return confirm('Are you sure you want to delete this chapter?');">
+                                        <button type="submit" class="delete-link">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No subjects found.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

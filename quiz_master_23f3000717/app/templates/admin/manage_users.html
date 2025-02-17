@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+    <!-- Admin Navigation Menu -->
+    <nav class="menu-bar">
+        <div class="menu-links">
+            <a href="{{ url_for('admin.dashboard') }}" class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{{ url_for('admin.quiz') }}" class="{% if request.endpoint == 'admin.quiz' %}active{% endif %}">
+                <i class="fas fa-question-circle"></i> Quiz
+            </a>
+            <a href="{{ url_for('admin.summary') }}" class="{% if request.endpoint == 'admin.summary' %}active{% endif %}">
+                <i class="fas fa-chart-bar"></i> Summary
+            </a>
+            <a href="{{ url_for('admin.manage_users') }}" class="{% if request.endpoint == 'admin.manage_users' %}active{% endif %}">
+                <i class="fas fa-users"></i> Manage Users
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="page-title"><i class="fas fa-user-shield"></i> Manage Users</h2>
+
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.is_blocked %}
+                            <span class="badge bg-danger">Blocked</span>
+                        {% else %}
+                            <span class="badge bg-success">Active</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.is_blocked %}
+                            <form action="{{ url_for('admin.unblock_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-unlock"></i> Unblock
+                                </button>
+                            </form>
+                        {% else %}
+                            <form action="{{ url_for('admin.block_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-ban"></i> Block
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        
+    </div>
+
+</body>
+</html>
